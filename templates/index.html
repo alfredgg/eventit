@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="//cdn.muicss.com/mui-0.6.8/css/mui.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/styles.css" rel="stylesheet" type="text/css" />
+        <script src="//cdn.muicss.com/mui-0.6.8/js/mui.min.js"></script>
+    </head>
+<body>
+
+<div class="mui-appbar">
+  <table width="100%">
+    <tr style="vertical-align:middle;">
+      <td class="mui--appbar-height">
+          <h1>EventIt</h1>
+      </td>
+      <td class="mui--appbar-height" align="right">Right Side</td>
+    </tr>
+  </table>
+</div>
+
+<div class="mui-container">
+    <h2>These are the upcoming events:</h2>
+        {% for event in events.get_upcoming() %}
+            <li>{{ event }}</a></li>
+        {% endfor %}
+    <h2>These are the passed events:</h2>
+</div>
+
+</body>
+</html>
