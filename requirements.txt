@@ -2,3 +2,4 @@ flask
 werkzeug
 flask-sqlalchemy
 flask-testing
+python-slugify
