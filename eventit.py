@@ -3,7 +3,7 @@
 
 from app import app
 from flask import render_template
-from data_model import Event
+from models import Event
 
 
 @app.route('/')

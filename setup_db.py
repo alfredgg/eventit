@@ -3,12 +3,12 @@
 
 
 def create():
-    from data_model import db
+    from models import db
     db.create_all()
 
 
 def reset():
-    from data_model import db
+    from models import db
     db.drop_all()
 
 if __name__ == '__main__':

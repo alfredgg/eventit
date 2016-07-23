@@ -3,3 +3,5 @@ werkzeug
 flask-sqlalchemy
 flask-testing
 python-slugify
+factory_boy
+arrow

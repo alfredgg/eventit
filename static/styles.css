@@ -1,9 +1,31 @@
-.mui-appbar h1
+.appbar-left
 {
-    margin-left: 2em;
+    padding-left: 2em;
+}
+
+.appbar-right
+{
+    padding-right: 2em;
 }
 
 .mui-container
 {
     padding-top: 1em;
+}
+
+.starting_date
+{
+    color: #666;
+    size: 1em;
+}
+
+h3 
+{
+    color: #666;
+}
+
+ul
+{
+    list-style: none;
+    padding-left: 0px;
 }

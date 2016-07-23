@@ -5,6 +5,7 @@
 from app import db
 from datetime import datetime
 from slugify import slugify
+import arrow
 
 
 class Event (db.Model):
@@ -20,9 +21,10 @@ class Event (db.Model):
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def __init__(self, name):
+    def __init__(self, name, starting_at):
         self.name = name
         self.slug = slugify(name)
+        self.starting_at = starting_at
 
     @property
     def short_description(self):
@@ -30,4 +32,17 @@ class Event (db.Model):
 
     @staticmethod
     def get_upcoming():
-        return ['event1', 'event2']
+        events = Event.query.filter(Event.starting_at > datetime.utcnow()).order_by(Event.starting_at).limit(5).all()
+        for event in events:
+            event.starting_at_hum = arrow.get(event.starting_at).humanize()
+        return events
+
+    @staticmethod
+    def get_passed():
+        events = Event.query.filter(Event.starting_at < datetime.utcnow()).order_by(Event.starting_at.desc()).limit(5).all()
+        for event in events:
+            event.starting_at_hum = arrow.get(event.starting_at).humanize()
+        return events
+
+    def __repr__(self):
+        return '<Event %r>' % self.name

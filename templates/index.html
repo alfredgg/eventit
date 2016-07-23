@@ -13,20 +13,40 @@
 <div class="mui-appbar">
   <table width="100%">
     <tr style="vertical-align:middle;">
-      <td class="mui--appbar-height">
+      <td class="mui--appbar-height appbar-left">
           <h1>EventIt</h1>
       </td>
-      <td class="mui--appbar-height" align="right">Right Side</td>
+      <td class="mui--appbar-height appbar-right" align="right">Sign Up / Sign In</td>
     </tr>
   </table>
 </div>
 
 <div class="mui-container">
+        <!-- content -->
+
     <h2>These are the upcoming events:</h2>
-        {% for event in events.get_upcoming() %}
-            <li>{{ event }}</a></li>
-        {% endfor %}
+    <ul>
+    {% for event in events.get_upcoming() %}
+    <li>
+        <div class="mui-panel">
+            <h3>{{ event.name }}</h3>
+            <span class="starting_date">{{ event.starting_at_hum }}</span>
+        </div>
+    </li>
+    {% endfor %}
+    </ul>
+
     <h2>These are the passed events:</h2>
+    <ul>
+    {% for event in events.get_passed() %}
+    <li>
+        <div class="mui-panel">
+            <h3>{{ event.name }}</h3>
+            <span class="starting_date">{{ event.starting_at_hum }}</span>
+        </div>
+    </li>
+    {% endfor %}
+    </ul>
 </div>
 
 </body>
