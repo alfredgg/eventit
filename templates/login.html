@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <legend>Login</legend>
+
+    {% for field in form %}
+    <div class="mui-textfield">
+        {{ field(placeholder=field.label.text) }}
+    </div>
+    {% endfor %}
+
+    <button type="submit" class="mui-btn mui-btn--raised">Submit</button>
+</form>
+
+
+{% endblock %}

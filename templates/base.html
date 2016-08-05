@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//cdn.muicss.com/mui-0.6.8/css/mui.min.css" rel="stylesheet" type="text/css"/>
+    <link href="static/styles.css" rel="stylesheet" type="text/css"/>
+    <script src="//cdn.muicss.com/mui-0.6.8/js/mui.min.js"></script>
+    <script src="static/eventit.js"></script>
+
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+
+<div class="mui-appbar">
+    <table width="100%">
+        <tr style="vertical-align:middle;">
+            <td class="mui--appbar-height appbar-left">
+                <h1><a href="{{ url_for('index') }}">EventIt</a></h1>
+            </td>
+            <td class="mui--appbar-height appbar-right" align="right">
+                {% if session['username'] %}
+                <div class="mui-dropdown">
+                    <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">
+                        {{ session['username'] }}
+                        <span class="mui-caret"></span>
+                    </button>
+                    <ul class="mui-dropdown__menu mui-dropdown__menu--right">
+                        <li><a href="#">Create event</a></li>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </div>
+                {% else %}
+                <a href="{{ url_for('register') }}">Sign Up</a> / <a href="{{ url_for('login') }}">Sign In</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="mui-container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>
