@@ -6,6 +6,7 @@ from app import db
 from datetime import datetime
 from slugify import slugify
 import arrow
+from flask import current_app
 
 
 class Event (db.Model):
@@ -16,6 +17,7 @@ class Event (db.Model):
     starting_at = db.Column(db.DateTime, nullable=False)
     ending_at = db.Column(db.DateTime, nullable=True)
     price = db.Column(db.Float)
+    starred = db.Column(db.Boolean)
     where = db.Column(db.String(255))
     where_link = db.Column(db.String())
     created = db.Column(db.DateTime, default=datetime.utcnow)
@@ -32,17 +34,26 @@ class Event (db.Model):
 
     @staticmethod
     def get_upcoming():
-        events = Event.query.filter(Event.starting_at > datetime.utcnow()).order_by(Event.starting_at).limit(5).all()
+        events = Event.query\
+            .filter(Event.starting_at > datetime.utcnow())\
+            .order_by(Event.starting_at)\
+            .limit(current_app.config['N_EVENTS_UPCOMING'])\
+            .all()
         for event in events:
             event.starting_at_hum = arrow.get(event.starting_at).humanize()
         return events
 
     @staticmethod
     def get_passed():
-        events = Event.query.filter(Event.starting_at < datetime.utcnow()).order_by(Event.starting_at.desc()).limit(5).all()
+        events = Event.query\
+            .filter(Event.starting_at < datetime.utcnow())\
+            .order_by(Event.starting_at.desc())\
+            .limit(current_app.config['N_EVENTS_PASSED'])\
+            .all()
         for event in events:
             event.starting_at_hum = arrow.get(event.starting_at).humanize()
         return events
 
     def __repr__(self):
         return '<Event %r>' % self.name
+
