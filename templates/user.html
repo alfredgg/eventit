@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>My events</h2>
+<ul>
+{% for event in events.user_events(current_user) %}
+<li>
+    <div class="mui-panel">
+        <h3>{{ event.name }}</h3>
+        <span class="starting_date">Starting {{ event.starting_at_hum }}, created by {{ event.owner.username }}</span>
+    </div>
+</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

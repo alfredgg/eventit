@@ -8,6 +8,7 @@ from slugify import slugify
 import arrow
 from werkzeug.security import generate_password_hash, check_password_hash
 from uuid import uuid4
+from flask_login import UserMixin
 
 
 class Event (db.Model):
@@ -57,6 +58,14 @@ class Event (db.Model):
             .all()
         return events
 
+    @staticmethod
+    def user_events(user):
+        events = Event.query\
+            .filter(Event.owner_id == user.id)\
+            .order_by(Event.starting_at)\
+            .all()
+        return events
+
     @property
     def starting_at_hum(self):
         return arrow.get(self.starting_at).humanize()
@@ -65,13 +74,7 @@ class Event (db.Model):
         return '<Event %r>' % self.name
 
 
-class Image (db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    filename = db.Column(db.String(32))
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-
-
-class User (db.Model):
+class User (db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(db.String(32))
     username = db.Column(db.String(50), nullable=False)
@@ -79,7 +82,7 @@ class User (db.Model):
     reset_password_token = db.Column(db.String(100))
     email = db.Column(db.String(255), nullable=False, unique=True)
     confirmed_at = db.Column(db.DateTime())
-    active = db.Column('is_active', db.Boolean(), nullable=False, default='0')
+    is_active = db.Column(db.Boolean(), nullable=False, default=True)
     firstname = db.Column(db.String(100), nullable=False, default='')
     lastname = db.Column(db.String(100), nullable=False, default='')
     created = db.Column(db.DateTime, default=datetime.utcnow)

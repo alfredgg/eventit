@@ -3,6 +3,7 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 import os
 
 app = Flask(__name__)
@@ -12,3 +13,6 @@ if os.path.exists(os.path.join(os.path.dirname(__file__), 'app_config.py')):
 
 app.config.from_envvar('EVENTIT_CONFIG_MODULE', silent=True)
 db = SQLAlchemy(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)

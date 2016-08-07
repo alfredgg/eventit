@@ -21,15 +21,15 @@
                 <h1><a href="{{ url_for('index') }}">EventIt</a></h1>
             </td>
             <td class="mui--appbar-height appbar-right" align="right">
-                {% if session['username'] %}
+                {% if current_user.is_authenticated %}
                 <div class="mui-dropdown">
                     <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">
-                        {{ session['username'] }}
+                        {{ current_user.username }}
                         <span class="mui-caret"></span>
                     </button>
                     <ul class="mui-dropdown__menu mui-dropdown__menu--right">
                         <li><a href="#">Create event</a></li>
-                        <li><a href="#">Profile</a></li>
+                        <li><a href="{{ url_for('frontpage') }}">Frontpage</a></li>
                         <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     </ul>
                 </div>

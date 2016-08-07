@@ -56,5 +56,14 @@ def prepare():
     generate_test_data()
 
 
+@manager.command
+def runserver():
+    app.run(
+        host="0.0.0.0",
+        port=8080,
+        debug=True
+    )
+
+
 if __name__ == '__main__':
     manager.run()
