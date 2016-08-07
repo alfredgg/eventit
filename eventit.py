@@ -4,8 +4,9 @@
 from app import app, login_manager
 from flask import render_template, flash, url_for, redirect, request, g
 from models import Event, User, db, Connection
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, CreateEventForm
 from flask_login import login_user, login_required, logout_user, current_user
+import datetime
 
 
 login_manager.login_view = 'login'
@@ -31,8 +32,10 @@ def get_current_user():
 @app.route('/index.html')
 def index():
     if current_user.is_authenticated:
+        form = CreateEventForm()
         return render_template('user.html', **{
-            'events': Event
+            'events': Event,
+            'form': form
         })
     return render_frontpage()
 
@@ -110,6 +113,21 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/event/<string:event_uid>')
+@login_required
+@app.route('/event', methods=['POST'])
+def create_event():
+    form = CreateEventForm()
+    if form.validate_on_submit():
+        event = Event(
+            name=form.name.data,
+            description='',
+            starting_at=datetime.date.today() + datetime.timedelta(days=1),
+            owner_id=current_user.id
+        )
+        db.session.add(event)
+        db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/event/<string:event_uid>', methods=['GET'])
 def event(event_uid):
     pass

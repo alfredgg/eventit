@@ -18,3 +18,7 @@ class RegistrationForm(Form):
 class LoginForm(Form):
     username = StringField('Username', [InputRequired()])
     password = PasswordField('Password', [InputRequired()])
+
+
+class CreateEventForm(Form):
+    name = StringField('Event Name', [InputRequired()])

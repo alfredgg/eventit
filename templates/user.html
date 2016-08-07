@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 
+{% block head %}
+<script>
+
+</script>
+{% endblock %}
+
+
 {% block content %}
 
 <h2>My events</h2>
+<div align="right">
+    <button class="mui-btn mui-btn--fab mui-btn--primary" onclick="activateModal('create_event');">+</button>
+</div>
 <ul>
 {% for event in events.user_events(current_user) %}
 <li>
@@ -13,5 +23,21 @@
 </li>
 {% endfor %}
 </ul>
+
+<div style="visibility: hidden" id="create_event" class="eventit-innermodal">
+    <form action="event" method="POST">
+    {{ form.hidden_tag() }}
+    <legend>Create Event</legend>
+
+    {% for field in form %}
+    <div class="mui-textfield">
+        {{ field(placeholder=field.label.text) }}
+    </div>
+    {% endfor %}
+
+    <button type="submit" class="mui-btn mui-btn--raised">Create event</button>
+</form>
+
+</div>
 
 {% endblock %}
