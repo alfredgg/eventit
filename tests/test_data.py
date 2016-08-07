@@ -33,7 +33,7 @@ class EventFactory(factory.Factory):
     owner_id = factory.fuzzy.FuzzyInteger(1, NUMBER_OF_USERS)  # FIXME: Use a sub-factory or something
 
 
-if __name__ == '__main__':
+def generate_data():
     users = UserFactory.create_batch(size=NUMBER_OF_USERS)
     models.db.session.bulk_save_objects(users)
 

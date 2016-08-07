@@ -3,6 +3,7 @@ werkzeug
 flask-sqlalchemy
 flask-testing
 python-slugify
+flask-script
 flask-wtf
 factory_boy
 arrow

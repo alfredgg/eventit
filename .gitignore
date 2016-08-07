@@ -91,3 +91,4 @@ ENV/
 # PyCharm
 .idea/
 *.db
+app_config.py
