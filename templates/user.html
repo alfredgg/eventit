@@ -17,7 +17,7 @@
 {% for event in events.user_events(current_user) %}
 <li>
     <div class="mui-panel">
-        <h3>{{ event.name }}</h3>
+        <h3><a href="{{ url_for('event', event_uid=event.slug) }}">{{ event.name }}</a></h3>
         <span class="starting_date">Starting {{ event.starting_at_hum }}, created by {{ event.owner.username }}</span>
     </div>
 </li>

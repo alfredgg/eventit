@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from app import app, login_manager
-from flask import render_template, flash, url_for, redirect, request, g
+from flask import render_template, flash, url_for, redirect, request, g, abort
 from models import Event, User, db, Connection
 from forms import RegistrationForm, LoginForm, CreateEventForm
 from flask_login import login_user, login_required, logout_user, current_user
@@ -118,16 +118,23 @@ def logout():
 def create_event():
     form = CreateEventForm()
     if form.validate_on_submit():
-        event = Event(
+        the_event = Event(
             name=form.name.data,
             description='',
             starting_at=datetime.date.today() + datetime.timedelta(days=1),
             owner_id=current_user.id
         )
-        db.session.add(event)
+        db.session.add(the_event)
         db.session.commit()
     return redirect(url_for('index'))
 
-@app.route('/event/<string:event_uid>', methods=['GET'])
+
+@app.route('/event/<string:event_uid>', methods=['GET', 'POST'])
 def event(event_uid):
-    pass
+    the_event = Event.query.filter_by(slug=event_uid).first()
+    if not the_event:
+        abort(404, message='')
+    if the_event.owner == current_user:
+        pass
+    else:
+        pass
