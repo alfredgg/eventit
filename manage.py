@@ -19,6 +19,7 @@ TEMPLATES_PATH = None
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 ALLOW_REGISTER = True
+DB_TABLE_PREFIX = 'eventit_'
 """
 
 manager = Manager(app)

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-from eventit import db
+from eventit import db, app
 from datetime import datetime
 from slugify import slugify
 import arrow
@@ -11,7 +11,13 @@ from uuid import uuid4
 from flask_login import UserMixin
 
 
+table_prefix = ''
+if 'DB_TABLE_PREFIX' in app.config.keys() and app.config['DB_TABLE_PREFIX']:
+    table_prefix = app.config['DB_TABLE_PREFIX']
+
+
 class Event (db.Model):
+    __tablename__ = table_prefix + 'event'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
     slug = db.Column(db.String, nullable=False, unique=True, index=True)
@@ -24,15 +30,16 @@ class Event (db.Model):
     where_link = db.Column(db.String())
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey(table_prefix + 'user.id'), nullable=False)
 
     def __setattr__(self, key, value):
         if key == 'name':
             idx = 0
-            slug = slugify(value)
+            base_slug = slugify(value)
+            slug = base_slug
             while Event.query.filter_by(slug=slug).first():
                 idx += 1
-                slug = slug + '-' + str(idx)
+                slug = base_slug + '-' + str(idx)
             self.slug = slug
         super(Event, self).__setattr__(key, value)
 
@@ -74,6 +81,7 @@ class Event (db.Model):
 
 
 class User (db.Model, UserMixin):
+    __tablename__ = table_prefix + 'user'
     id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(db.String(32))
     username = db.Column(db.String(50), nullable=False)
@@ -102,8 +110,9 @@ class User (db.Model, UserMixin):
 
 
 class Connection (db.Model):
+    __tablename__ = table_prefix + 'connection'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey(table_prefix + 'user.id'))
     connected = db.Column(db.DateTime, default=datetime.utcnow)
 
 
