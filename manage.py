@@ -18,6 +18,7 @@ USER_PAGES_PATH = None
 TEMPLATES_PATH = None
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+ALLOW_REGISTER = True
 """
 
 manager = Manager(app)
@@ -56,7 +57,7 @@ def generate_test_data():
 
 
 @manager.command
-def prepare():
+def prepare_dev():
     setup_db()
     generate_test_data()
 

@@ -3,7 +3,7 @@
 
 from eventit import app, db
 from flask_login import current_user, login_user, logout_user, login_required
-from flask import redirect, url_for, request, flash, render_template
+from flask import redirect, url_for, request, flash, render_template, abort
 from forms import RegistrationForm, LoginForm
 from models import User, Connection
 
@@ -12,6 +12,9 @@ from models import User, Connection
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
+
+    if not app.config['ALLOW_REGISTER']:
+        abort(404)
 
     form = RegistrationForm()
 
