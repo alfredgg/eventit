@@ -7,7 +7,9 @@
     <li>
         <div class="mui-panel">
             <h3>{{ event.name }}</h3>
-            <span class="starting_date">Starting {{ event.starting_at_hum }}, created by {{ event.owner.username }}</span>
+            <span class="starting_date">
+                Starting {{ event.starting_at_hum }}, created by {{ event.owner.username }}
+            </span>
         </div>
     </li>
     {% endfor %}
@@ -19,7 +21,7 @@
     <li>
         <div class="mui-panel">
             <h3>{{ event.name }}</h3>
-            <span class="starting_date">{{ event.starting_at_hum }}</span>
+            <span class="starting_date">Started {{ event.starting_at_hum }}</span>
         </div>
     </li>
     {% endfor %}
