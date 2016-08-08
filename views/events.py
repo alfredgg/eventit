@@ -6,7 +6,7 @@ from eventit import app, db
 from forms import CreateEventForm
 from models import Event
 import datetime
-from flask import redirect, url_for, abort
+from flask import redirect, url_for, abort, render_template, request
 
 
 @app.route('/event', methods=['POST'])
@@ -30,7 +30,26 @@ def event(event_uid):
     the_event = Event.query.filter_by(slug=event_uid).first()
     if not the_event:
         abort(404)
-    if the_event.owner == current_user:
-        pass
-    else:
-        pass
+    if request.method == 'GET':
+        if the_event.owner == current_user:
+            form = CreateEventForm(
+                name=the_event.name
+            )
+            return render_template('event.html', **{
+                'event': the_event,
+                'form': form
+            })
+        else:
+            return render_template('event.html', **{
+                'event': the_event,
+                'form': None
+            })
+    elif request.method == 'POST':
+        if the_event.owner == current_user:
+            form = CreateEventForm()
+            if form.validate_on_submit():
+                form.populate_obj(the_event)
+                db.session.commit()
+            return redirect(url_for('event', event_uid=the_event.slug))
+        else:
+            abort(403)

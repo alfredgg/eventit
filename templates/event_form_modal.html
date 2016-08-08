@@ -1,0 +1,6 @@
+{{ form.hidden_tag() }}
+{% for field in form %}
+<div class="mui-textfield">
+    {{ field(placeholder=field.label.text) }}
+</div>
+{% endfor %}

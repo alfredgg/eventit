@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block content %}
+<h2>{{ event.name }}</h2>
+{% if event.owner_id == current_user.id %}
+<a href="#" onclick="activateModal('edit_event');">Edit</a>
+
+<div style="visibility: hidden" id="edit_event" class="eventit-innermodal">
+    <form action="" method="POST">
+    <legend>Edit Event</legend>
+        {% include 'event_form_modal.html' %}
+        <button type="submit" class="mui-btn mui-btn--raised">Update event</button>
+    </form>
+</div>
+{% else %}
+{% endif %}
+{% endblock %}

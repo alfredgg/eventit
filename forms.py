@@ -16,7 +16,7 @@ class RegistrationForm(Form):
 
 
 class LoginForm(Form):
-    username = StringField('Username', [InputRequired()])
+    username = StringField('Username or email', [InputRequired()])
     password = PasswordField('Password', [InputRequired()])
 
 
