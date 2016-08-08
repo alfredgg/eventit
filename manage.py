@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import warnings
+from exceptions import Warning
+warnings.simplefilter('ignore', Warning)
+
 from flask_script import Manager
 from eventit import app
 
