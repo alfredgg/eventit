@@ -9,8 +9,8 @@ import datetime
 from flask import redirect, url_for, abort
 
 
-@login_required
 @app.route('/event', methods=['POST'])
+@login_required
 def create_event():
     form = CreateEventForm()
     if form.validate_on_submit():

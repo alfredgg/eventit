@@ -14,7 +14,7 @@ from flask_login import UserMixin
 class Event (db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
-    slug = db.Column(db.String, nullable=False, unique=True, index=True)  # FIXME: Events with the same slug
+    slug = db.Column(db.String, nullable=False, unique=True, index=True)
     description = db.Column(db.String())
     starting_at = db.Column(db.DateTime, nullable=False)
     ending_at = db.Column(db.DateTime, nullable=True)
@@ -66,9 +66,8 @@ class Event (db.Model):
             .all()
         return events
 
-    @property
-    def starting_at_hum(self):
-        return arrow.get(self.starting_at).humanize()
+    def starting_at_hum(self, locale='en'):
+        return arrow.get(self.starting_at).humanize(locale=locale)
 
     def __repr__(self):
         return '<Event %r>' % self.name

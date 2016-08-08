@@ -46,6 +46,8 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
         username = form.username.data

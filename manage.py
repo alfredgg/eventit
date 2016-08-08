@@ -12,6 +12,11 @@ SQLALCHEMY_DATABASE_URI = '%(db_path)s'
 SESSION_TYPE = 'filesystem'
 SECRET_KEY = '%(secret_key)s'
 
+STATIC_FOLDER = 'static'
+PAGES_PATH = None
+USER_PAGES_PATH = None
+TEMPLATES_PATH = 'templates'
+
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 """
 
