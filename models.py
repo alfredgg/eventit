@@ -20,14 +20,14 @@ class Event (db.Model):
     __tablename__ = table_prefix + 'event'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
-    slug = db.Column(db.String, nullable=False, unique=True, index=True)
-    description = db.Column(db.String())
+    slug = db.Column(db.String(150), nullable=False, unique=True, index=True)
+    description = db.Column(db.String(1500))  # FIXME: Just put a good lenght
     starting_at = db.Column(db.DateTime, nullable=False)
     ending_at = db.Column(db.DateTime, nullable=True)
     price = db.Column(db.Float)
     starred = db.Column(db.Boolean)
     where = db.Column(db.String(255))
-    where_link = db.Column(db.String())
+    where_link = db.Column(db.String(500))
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
     owner_id = db.Column(db.Integer, db.ForeignKey(table_prefix + 'user.id'), nullable=False)
