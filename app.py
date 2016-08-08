@@ -13,8 +13,12 @@ if os.path.exists(os.path.join(os.path.dirname(__file__), 'app_config.py')):
 
 app.config.from_envvar('EVENTIT_CONFIG_MODULE', silent=True)
 
-if app.config['STATIC_FOLDER']:
+if 'STATIC_FOLDER' in app.config.keys() and app.config['STATIC_FOLDER']:
     app.static_folder = app.config['STATIC_FOLDER']
+
+base_path = ''
+if 'TEMPLATES_PATH' in app.config.keys() and app.config['TEMPLATES_PATH']:
+    app.template_folder = app.config['TEMPLATES_PATH']
 
 db = SQLAlchemy(app)
 

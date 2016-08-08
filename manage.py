@@ -12,10 +12,10 @@ SQLALCHEMY_DATABASE_URI = '%(db_path)s'
 SESSION_TYPE = 'filesystem'
 SECRET_KEY = '%(secret_key)s'
 
-STATIC_FOLDER = 'static'
+STATIC_FOLDER = None
 PAGES_PATH = None
 USER_PAGES_PATH = None
-TEMPLATES_PATH = 'templates'
+TEMPLATES_PATH = None
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 """
@@ -61,6 +61,7 @@ def prepare():
     generate_test_data()
 
 
+# TODO: Implement options
 @manager.command
 def runserver():
     app.run(
