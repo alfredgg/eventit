@@ -2,11 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from app import app, login_manager
-from flask import render_template, flash, url_for, redirect, request, g, abort
-from models import Event, User, db, Connection
-from forms import RegistrationForm, LoginForm, CreateEventForm
-from flask_login import login_user, login_required, logout_user, current_user
-import datetime
+from models import User
 import views
 
 
