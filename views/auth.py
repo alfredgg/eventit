@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from app import app, db
+from eventit import app, db
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import redirect, url_for, request, flash, render_template
 from forms import RegistrationForm, LoginForm
@@ -70,8 +70,8 @@ def login():
     return render_template('login.html', form=form)
 
 
-@login_required
 @app.route('/logout', methods=['GET'])
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))

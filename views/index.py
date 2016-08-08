@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from app import app
+from eventit import app
 from flask_login import current_user
 from forms import CreateEventForm
 from flask import render_template

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask_login import login_required, current_user
-from app import app, db
+from eventit import app, db
 from forms import CreateEventForm
 from models import Event
 import datetime
