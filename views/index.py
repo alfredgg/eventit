@@ -3,14 +3,16 @@
 
 from eventit import app
 from flask_login import current_user
-from forms import CreateEventForm
+from forms import CreateEventForm, LoginForm
 from flask import render_template
 from models import Event
 
 
 def render_frontpage():
+    login_form = LoginForm()
     return render_template('index.html', **{
-        'events': Event
+        'events': Event,
+        'login_form': login_form
     })
 
 
