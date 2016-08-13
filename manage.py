@@ -23,7 +23,9 @@ TEMPLATES_PATH = None
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 ALLOW_REGISTER = True
-DB_TABLE_PREFIX = 'eventit_'
+DB_TABLE_PREFIX = ''
+
+USERS_CAN_ORGANIZE = False
 """
 
 manager = Manager(app)
@@ -39,7 +41,7 @@ def write_config():
     'Writes app_config file.'
     import os
     data = {
-        'db_path': 'sqlite:///' + os.environ['HOME'] + '/newskid.db',
+        'db_path': 'sqlite:///' + os.environ['HOME'] + '/eventit.db',
         'secret_key': generate_secret_key(),
     }
     values = CONFIG_TEMPLATE % data
@@ -50,9 +52,14 @@ def write_config():
 
 @manager.command
 def setup_db():
-    from models import db
+    from models import db, Role
     db.drop_all()
     db.create_all()
+    role_admin = Role(name='admin')
+    role_organizer = Role(name='organizer')
+    db.session.add(role_admin)
+    db.session.add(role_organizer)
+    db.session.commit()
 
 
 @manager.command
@@ -76,6 +83,7 @@ def runserver():
         debug=True
     )
 
+# TODO: Create admin user
 
 if __name__ == '__main__':
     manager.run()

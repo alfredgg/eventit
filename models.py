@@ -86,6 +86,7 @@ class User (db.Model, UserMixin):
     uuid = db.Column(db.String(32))
     username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    role_id = db.Column(db.Integer, db.ForeignKey(table_prefix + 'role.id'), nullable=True)
     reset_password_token = db.Column(db.String(100))
     email = db.Column(db.String(255), nullable=False, unique=True)
     confirmed_at = db.Column(db.DateTime())
@@ -95,6 +96,7 @@ class User (db.Model, UserMixin):
     created = db.Column(db.DateTime, default=datetime.utcnow)
     events = db.relationship('Event', backref='owner', lazy='dynamic')
     connections = db.relationship('Connection', backref='user', lazy='dynamic')
+    activation_token = db.Column(db.String(32))
 
     def __setattr__(self, key, value):
         if key == 'password':
@@ -109,10 +111,18 @@ class User (db.Model, UserMixin):
         return check_password_hash(self.password, passwd)
 
 
+class Role (db.Model):
+    __tablename__ = table_prefix + 'role'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(10))
+    users = db.relationship('User', backref='role', lazy='dynamic')
+
+
 class Connection (db.Model):
     __tablename__ = table_prefix + 'connection'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(table_prefix + 'user.id'))
     connected = db.Column(db.DateTime, default=datetime.utcnow)
+    address = db.Column(db.String(16))
 
 

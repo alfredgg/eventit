@@ -6,6 +6,22 @@ from flask_login import current_user, login_user, logout_user, login_required
 from flask import redirect, url_for, request, flash, render_template, abort
 from forms import RegistrationForm, LoginForm
 from models import User, Connection
+from functools import wraps
+
+
+def requires_roles(*roles):
+    def wrapper(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if current_user.role.name not in roles:
+                return abort(403)
+            return f(*args, **kwargs)
+        return wrapped
+    return wrapper
+
+
+def allow_organizer(*roles):
+    pass
 
 
 @app.route('/register', methods=['GET', 'POST'])
