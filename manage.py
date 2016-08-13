@@ -74,6 +74,20 @@ def prepare_dev():
     generate_test_data()
 
 
+@manager.option('-n', '--username', dest='username')
+@manager.option('-p', '--password', dest='password', required=True)
+def create_admin(password, username='admin'):
+    from eventit import db
+    from models import User, Role
+
+    user = User(username=username, email='', active=True, password=password)
+    role_admin = Role.get_role_obj('admin')
+    user.roles.append(role_admin)
+
+    db.session.add(user)
+    db.session.commit()
+
+
 # TODO: Implement options
 @manager.command
 def runserver():
