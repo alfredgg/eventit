@@ -7,7 +7,6 @@ from flask_login import login_required
 from app import login_manager, app, admin, db
 from models import User, Event, Connection
 from admin import EventitAdminModelView, UserModelView
-from imp import load_module, find_module, load_source
 import views
 
 
