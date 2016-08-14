@@ -7,6 +7,7 @@ from flask_login import login_required
 from app import login_manager, app, admin, db
 from models import User, Event, Connection
 from admin import EventitAdminModelView, UserModelView
+# FIXME: Add views as blueprints or do it in a better way
 import views
 
 
