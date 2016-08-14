@@ -83,14 +83,14 @@ class Event (db.Model):
 class User (db.Model, UserMixin):
     __tablename__ = table_prefix + 'user'
     id = db.Column(db.Integer, primary_key=True)
-    uuid = db.Column(db.String(32))
+    uuid = db.Column(db.String(32), index=True)
     username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey(table_prefix + 'role.id'), nullable=True)
     reset_password_token = db.Column(db.String(100))
     email = db.Column(db.String(255), nullable=False, unique=True)
     confirmed_at = db.Column(db.DateTime())
-    is_active = db.Column(db.Boolean(), nullable=False, default=True)
+    is_active = db.Column(db.Boolean(), nullable=False, default=False)
     firstname = db.Column(db.String(100), nullable=False, default='')
     lastname = db.Column(db.String(100), nullable=False, default='')
     created = db.Column(db.DateTime, default=datetime.utcnow)

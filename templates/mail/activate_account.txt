@@ -1,0 +1,3 @@
+Hi {{ user.firstname }}! For activating your account go to the next address:
+
+{{ activate_link }}

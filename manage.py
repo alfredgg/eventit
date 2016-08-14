@@ -36,7 +36,9 @@ MAIL_USE_SSL = False
 MAIL_DEBUG = app.debug
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
-DEFAULT_MAIL_SENDER = None
+MAIL_DEFAULT_SENDER = None
+
+MAIL_ACTIVATE_ACCOUNT_SUBJECT = 'Eventit account activation'
 """
 
 manager = Manager(app)

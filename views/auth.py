@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from functools import wraps
-
 from flask import redirect, url_for, request, flash, render_template, abort
 from flask_login import current_user, login_user, logout_user, login_required
 from eventit.forms import RegistrationForm, LoginForm
@@ -56,6 +55,16 @@ def register():
         )
         db.session.add(user)
         db.session.commit()
+
+        app.communication_manager.send_mail_from_template(
+            template='mail/activate_account.txt',
+            subject=app.config['MAIL_ACTIVATE_ACCOUNT_SUBJECT'],
+            recipient=user.email,
+            **{
+                'user': user,
+                'activate_link': url_for('activate', uuid=user.uuid, _external=True)
+            })
+
         return redirect(url_for('login'))
 
     if form.errors:
@@ -95,3 +104,12 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/activate/<string:uuid>', methods=['GET'])
+def activate(uuid):
+    user = User.query.filter_by(uuid=uuid).first()
+    user.is_active = True
+    db.session.commit()
+    return redirect(url_for('index'))
+
