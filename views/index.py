@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from eventit import app
-from flask_login import current_user
-from forms import CreateEventForm, LoginForm
 from flask import render_template
-from models import Event
+from flask_login import current_user
+from eventit.forms import CreateEventForm, LoginForm
+from eventit.models import Event
+from app import app
 
 
 def render_frontpage():

@@ -1,34 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-import os
+from flask import send_from_directory, abort
 import datetime
 from flask_login import login_required
-from flask import send_from_directory, abort
+from app import login_manager, app, admin, db
+from models import User, Event, Connection
+from admin import EventitAdminModelView, UserModelView
+import views
 
-app = Flask(__name__)
 
-if os.path.exists(os.path.join(os.path.dirname(__file__), 'app_config.py')):
-    app.config.from_object('app_config')
-
-app.config.from_envvar('EVENTIT_CONFIG_MODULE', silent=True)
-
-if 'STATIC_FOLDER' in app.config.keys() and app.config['STATIC_FOLDER']:
-    app.static_folder = app.config['STATIC_FOLDER']
-
-base_path = ''
-if 'TEMPLATES_PATH' in app.config.keys() and app.config['TEMPLATES_PATH']:
-    app.template_folder = app.config['TEMPLATES_PATH']
-
-db = SQLAlchemy(app)
-
-# Configure flask_login
-login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+admin.add_view(UserModelView(User, db.session))
+admin.add_view(EventitAdminModelView(Event, db.session))
+admin.add_view(EventitAdminModelView(Connection, db.session))
 
 
 @login_manager.user_loader
@@ -62,5 +49,3 @@ def user_pages(filename):
     if app.config['USER_PAGES_PATH']:
         return send_from_directory(app.config['USER_PAGES_PATH'], filename)
     abort(404)
-
-import views

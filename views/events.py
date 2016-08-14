@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask_login import login_required, current_user
-from eventit import app, db
-from forms import CreateEventForm
-from models import Event
 import datetime
+
 from flask import redirect, url_for, abort, render_template, request
+from flask_login import login_required, current_user
+from eventit.forms import CreateEventForm
+from eventit.models import Event
+from app import app, db
 
 
 @app.route('/event', methods=['POST'])

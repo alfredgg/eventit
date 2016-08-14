@@ -29,6 +29,9 @@
                     </button>
                     <ul class="mui-dropdown__menu mui-dropdown__menu--right">
                         <li><a href="#">Profile</a></li>
+                        {% if current_user.role and current_user.role.name == 'admin' %}
+                            <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
+                        {% endif %}
                         <li><a href="{{ url_for('frontpage') }}">Frontpage</a></li>
                         <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     </ul>

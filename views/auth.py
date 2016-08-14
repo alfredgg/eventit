@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from eventit import app, db
-from flask_login import current_user, login_user, logout_user, login_required
-from flask import redirect, url_for, request, flash, render_template, abort
-from forms import RegistrationForm, LoginForm
-from models import User, Connection
 from functools import wraps
+
+from flask import redirect, url_for, request, flash, render_template, abort
+from flask_login import current_user, login_user, logout_user, login_required
+from eventit.forms import RegistrationForm, LoginForm
+from eventit.models import User, Connection
+from app import app, db
 
 
 def requires_roles(*roles):
@@ -80,7 +81,7 @@ def login():
             return render_template('login.html', form=form)
 
         login_user(existing_user)
-        db.session.add(Connection(user=existing_user))
+        db.session.add(Connection(user=existing_user, address=request.remote_addr))
         db.session.commit()
         return redirect(url_for('index'))
 

@@ -6,7 +6,7 @@ from exceptions import Warning
 warnings.simplefilter('ignore', Warning)
 
 from flask_script import Manager
-from eventit import app
+from eventit.eventit import app
 
 
 CONFIG_TEMPLATE = """#!/usr/bin/env python
@@ -52,7 +52,7 @@ def write_config():
 
 @manager.command
 def setup_db():
-    from models import db, Role
+    from eventit.models import db, Role
     db.drop_all()
     db.create_all()
     role_admin = Role(name='admin')
@@ -74,15 +74,24 @@ def prepare_dev():
     generate_test_data()
 
 
-@manager.option('-n', '--username', dest='username')
-@manager.option('-p', '--password', dest='password', required=True)
-def create_admin(password, username='admin'):
-    from eventit import db
-    from models import User, Role
+@manager.option('-n', '--username', dest='username', default='admin')
+def create_admin(username):
+    from eventit.eventit import db
+    from eventit.models import User, Role
+    import getpass
+    from sys import stdout
 
-    user = User(username=username, email='', active=True, password=password)
+    password = None
+    password2 = None
+    while not password or password != password2:
+        password = getpass.getpass()
+        password2 = getpass.getpass('Please, repeat your password: ')
+        if not password or password != password2:
+            stdout.write('Passwords do not match')
+
+    user = User(username=username, email='', is_active=True, password=password)
     role_admin = Role.get_role_obj('admin')
-    user.roles.append(role_admin)
+    user.role = role_admin
 
     db.session.add(user)
     db.session.commit()

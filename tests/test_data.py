@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import datetime
+
 import factory
 import factory.fuzzy
 from factory import compat
-import models
-import datetime
 
+from eventit import models
 
 NUMBER_OF_USERS = 25
 NUMBER_OF_EVENTS = 100

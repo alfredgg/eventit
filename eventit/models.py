@@ -77,7 +77,7 @@ class Event (db.Model):
         return arrow.get(self.starting_at).humanize(locale=locale)
 
     def __repr__(self):
-        return '<Event %r>' % self.name
+        return self.slug
 
 
 class User (db.Model, UserMixin):
@@ -110,12 +110,22 @@ class User (db.Model, UserMixin):
     def check_password(self, passwd):
         return check_password_hash(self.password, passwd)
 
+    def __repr__(self):
+        return self.username
+
 
 class Role (db.Model):
     __tablename__ = table_prefix + 'role'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(10))
     users = db.relationship('User', backref='role', lazy='dynamic')
+
+    @staticmethod
+    def get_role_obj(name):
+        return Role.query.filter_by(name=name).first()
+
+    def __repr__(self):
+        return self.name
 
 
 class Connection (db.Model):
