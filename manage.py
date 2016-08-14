@@ -28,6 +28,15 @@ DB_TABLE_PREFIX = ''
 USERS_CAN_ORGANIZE = False
 
 COMMUNICATION_MANAGER = 'eventit.managers.FlaskMailCommunicationManager'
+
+MAIL_SERVER = 'localhost'
+MAIL_PORT = 25
+MAIL_USE_TLS = False
+MAIL_USE_SSL = False
+MAIL_DEBUG = app.debug
+MAIL_USERNAME = None
+MAIL_PASSWORD = None
+DEFAULT_MAIL_SENDER = None
 """
 
 manager = Manager(app)
