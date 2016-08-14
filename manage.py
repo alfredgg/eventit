@@ -6,7 +6,7 @@ from exceptions import Warning
 warnings.simplefilter('ignore', Warning)
 
 from flask_script import Manager
-from eventit.eventit import app
+from app import app
 
 
 CONFIG_TEMPLATE = """#!/usr/bin/env python
@@ -26,6 +26,8 @@ ALLOW_REGISTER = True
 DB_TABLE_PREFIX = ''
 
 USERS_CAN_ORGANIZE = False
+
+COMMUNICATION_MANAGER = 'eventit.managers.FlaskMailCommunicationManager'
 """
 
 manager = Manager(app)
@@ -100,6 +102,7 @@ def create_admin(username):
 # TODO: Implement options
 @manager.command
 def runserver():
+    from eventit.eventit import app
     app.run(
         host="0.0.0.0",
         port=8080,

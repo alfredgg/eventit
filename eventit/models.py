@@ -21,7 +21,7 @@ class Event (db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
     slug = db.Column(db.String(150), nullable=False, unique=True, index=True)
-    description = db.Column(db.String(1500))  # FIXME: Just put a good lenght
+    description = db.Column(db.String(1500))  # FIXME: Just put a good lenght for a long text
     starting_at = db.Column(db.DateTime, nullable=False)
     ending_at = db.Column(db.DateTime, nullable=True)
     price = db.Column(db.Float)

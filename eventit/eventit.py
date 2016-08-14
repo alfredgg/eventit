@@ -7,6 +7,7 @@ from flask_login import login_required
 from app import login_manager, app, admin, db
 from models import User, Event, Connection
 from admin import EventitAdminModelView, UserModelView
+from imp import load_module, find_module, load_source
 import views
 
 
@@ -16,6 +17,18 @@ login_manager.login_view = 'login'
 admin.add_view(UserModelView(User, db.session))
 admin.add_view(EventitAdminModelView(Event, db.session))
 admin.add_view(EventitAdminModelView(Connection, db.session))
+
+
+def dynamic_import(name):
+    components = name.split('.')
+    mod = __import__(components[0])
+    for comp in components[1:]:
+        mod = getattr(mod, comp)
+    return mod
+
+
+communication_manager_class = dynamic_import(app.config['COMMUNICATION_MANAGER'])
+communication = communication_manager_class()
 
 
 @login_manager.user_loader
