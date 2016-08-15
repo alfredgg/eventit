@@ -96,16 +96,14 @@ class User (db.Model, UserMixin):
     created = db.Column(db.DateTime, default=datetime.utcnow)
     events = db.relationship('Event', backref='owner', lazy='dynamic')
     connections = db.relationship('Connection', backref='user', lazy='dynamic')
-    activation_token = db.Column(db.String(32))
 
     def __setattr__(self, key, value):
+        super(User, self).__setattr__(key, value)
         if key == 'password':
             self.__dict__[key] = generate_password_hash(value)
         elif key == 'username':
             self.__dict__[key] = value
             self.uuid = str(uuid4()).replace('-', '')
-        else:
-            super(User, self).__setattr__(key, value)
 
     def check_password(self, passwd):
         return check_password_hash(self.password, passwd)

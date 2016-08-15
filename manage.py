@@ -39,6 +39,7 @@ MAIL_PASSWORD = None
 MAIL_DEFAULT_SENDER = None
 
 MAIL_ACTIVATE_ACCOUNT_SUBJECT = 'Eventit account activation'
+MAIL_FORGOTTEN_PASSWORD_SUBJECT = 'You forgot the Eventit password'
 """
 
 manager = Manager(app)

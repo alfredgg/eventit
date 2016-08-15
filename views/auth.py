@@ -4,9 +4,10 @@
 from functools import wraps
 from flask import redirect, url_for, request, flash, render_template, abort
 from flask_login import current_user, login_user, logout_user, login_required
-from eventit.forms import RegistrationForm, LoginForm
+from eventit.forms import RegistrationForm, LoginForm, ResetPasswordForm, ForgotPasswordForm
 from eventit.models import User, Connection
 from app import app, db
+from uuid import uuid4
 
 
 def requires_roles(*roles):
@@ -113,3 +114,67 @@ def activate(uuid):
     db.session.commit()
     return redirect(url_for('index'))
 
+
+@app.route('/forgot_password', methods=['POST', 'GET'])
+def forgot_password():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    form = ForgotPasswordForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        username = form.username.data
+        if '@' in username:
+            existing_user = User.query.filter_by(email=username).first()
+        else:
+            existing_user = User.query.filter_by(username=username).first()
+
+        if not existing_user:
+            flash('The mail or username is not in our DataBase.', 'warning')
+            return render_template('forgot_password.html', form=form)
+
+        existing_user.reset_password_token = str(uuid4()).replace('-', '')
+        db.session.commit()
+
+        app.communication_manager.send_mail_from_template(
+            template='mail/forgot_password.txt',
+            subject=app.config['MAIL_ACTIVATE_ACCOUNT_SUBJECT'],
+            recipient=existing_user.email,
+            **{
+                'user': existing_user,
+                'reset_password_link': url_for(
+                    'recover_password',
+                    token=existing_user.reset_password_token,
+                    _external=True
+                )
+            })
+        return render_template('forgot_password_mail.html')
+
+    return render_template('forgot_password.html', form=form)
+
+
+@app.route('/recover_password/<string:token>', methods=['POST', 'GET'])
+def recover_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = ResetPasswordForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        user = User.query.filter_by(reset_password_token=token).first()
+        if not user:
+            flash('The mail or username is not in our DataBase.', 'warning')
+            return render_template('forgot_password.html', form=form)
+        user.password = form.password.data
+        user.reset_password_token = None
+        db.session.commit()
+        # TODO: Send some message informing user about their password reset
+        return redirect(url_for('login'))
+
+    if request.method == 'GET':
+        user = User.query.filter_by(reset_password_token=token).first()
+        if not user:
+            flash('The recover password token is invalid.', 'warning')
+            return redirect(url_for('forgot_password'))
+
+    if form.errors:
+        flash(form.errors, 'danger')
+
+    return render_template('recover_password.html', form=form)

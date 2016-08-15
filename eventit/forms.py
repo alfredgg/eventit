@@ -22,3 +22,12 @@ class LoginForm(Form):
 
 class CreateEventForm(Form):
     name = StringField('Event Name', [InputRequired()])
+
+
+class ForgotPasswordForm(Form):
+    username = StringField('Username or email', [InputRequired()])
+
+
+class ResetPasswordForm(Form):
+    password = PasswordField('New Password', [InputRequired(), EqualTo('confirm', message='Passwords must match')])
+    confirm = PasswordField('Confirm new Password', [InputRequired()])
