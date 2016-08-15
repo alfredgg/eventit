@@ -109,9 +109,9 @@ class User (db.Model, UserMixin):
     def check_password(self, passwd):
         return check_password_hash(self.password, passwd)
 
-    def gravatar(self, size):
-        return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (
-            hashlib.md5(self.email.encode('utf-8')).hexdigest(), size)
+    def gravatar(self, size, rating='g'):
+        return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d&r=%s' % (
+            hashlib.md5(self.email.encode('utf-8')).hexdigest(), size, rating)
 
     def __repr__(self):
         return self.username
