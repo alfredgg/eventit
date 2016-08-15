@@ -10,6 +10,7 @@
             <span class="starting_date">
                 Starting {{ event.starting_at_hum() }}, created by {{ event.owner.username }}
             </span>
+            <img src="{{ event.owner.gravatar(15) }}" />
         </div>
     </li>
     {% endfor %}

@@ -9,6 +9,7 @@ import arrow
 from werkzeug.security import generate_password_hash, check_password_hash
 from uuid import uuid4
 from flask_login import UserMixin
+import hashlib
 
 
 table_prefix = ''
@@ -107,6 +108,10 @@ class User (db.Model, UserMixin):
 
     def check_password(self, passwd):
         return check_password_hash(self.password, passwd)
+
+    def gravatar(self, size):
+        return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (
+            hashlib.md5(self.email.encode('utf-8')).hexdigest(), size)
 
     def __repr__(self):
         return self.username
