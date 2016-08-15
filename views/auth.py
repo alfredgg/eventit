@@ -8,6 +8,7 @@ from eventit.forms import RegistrationForm, LoginForm, ResetPasswordForm, Forgot
 from eventit.models import User, Connection
 from app import app, db
 from uuid import uuid4
+from datetime import datetime
 
 
 def requires_roles(*roles):
@@ -111,6 +112,7 @@ def logout():
 def activate(uuid):
     user = User.query.filter_by(uuid=uuid).first()
     user.is_active = True
+    user.confirmed_at = datetime.now()
     db.session.commit()
     return redirect(url_for('index'))
 

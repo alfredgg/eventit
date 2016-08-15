@@ -31,4 +31,4 @@ class EventitAdminModelView(ModelView):
 
 
 class UserModelView(EventitAdminModelView):
-    column_exclude_list = ['password', ]
+    column_exclude_list = ['password', 'reset_password_token']
