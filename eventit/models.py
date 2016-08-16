@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-from eventit import db, app
+from app import db, app
 from datetime import datetime
 from slugify import slugify
 import arrow

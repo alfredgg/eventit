@@ -8,5 +8,4 @@ flask-wtf
 flask-login
 flask-admin
 flask-mail
-factory_boy
 arrow

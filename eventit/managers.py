@@ -6,14 +6,6 @@ from flask_mail import Mail, Message
 from threading import Thread
 
 
-communication = None
-
-
-def set_communication_manager(com_manager):
-    global communication
-    communication = com_manager
-
-
 class BaseAssetManager(object):
     pass
 

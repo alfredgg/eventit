@@ -33,7 +33,7 @@ MAIL_SERVER = 'localhost'
 MAIL_PORT = 25
 MAIL_USE_TLS = False
 MAIL_USE_SSL = False
-MAIL_DEBUG = app.debug
+# MAIL_DEBUG = app.debug
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
 MAIL_DEFAULT_SENDER = None
@@ -78,7 +78,7 @@ def setup_db():
 
 @manager.command
 def generate_test_data():
-    from tests.test_data import generate_data
+    from tests.data import generate_data
     generate_data()
 
 
@@ -109,6 +109,29 @@ def create_admin(username):
 
     db.session.add(user)
     db.session.commit()
+
+
+@manager.command
+def test(coverage=False):
+    import unittest2
+    import os
+    import coverage as _coverage
+    cov = None
+    if coverage:
+        cov = _coverage.coverage(branch=True, include='./*')
+        cov.start()
+    tests = unittest2.TestLoader().discover('tests')
+    unittest2.TextTestRunner(verbosity=2).run(tests)
+    if cov:
+        cov.stop()
+        cov.save()
+        print('Coverage Summary:')
+        cov.report()
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        covdir = os.path.join(basedir, 'tmp/coverage')
+        cov.html_report(directory=covdir)
+        print('HTML version: file://%s/index.html' % covdir)
+        cov.erase()
 
 
 # TODO: Implement options
