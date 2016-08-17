@@ -17,3 +17,4 @@ class UserModelsTest(EventitTestBase):
         u.password = '1234'
         db.session.commit()
         self.assertTrue(check_password_hash(u.password, '1234'))
+

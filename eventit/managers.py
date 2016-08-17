@@ -38,5 +38,9 @@ class FlaskMailCommunicationManager(BaseCommunicationManager):
             mail.send(the_message)
 
         msg = Message(subject=subject, body=message, recipients=[recipient])
-        sender = Thread(name='mail_sender', target=send_message, args=(self.mail, msg,))
-        sender.start()
+
+        if 'SEND_BACKGROUND_MAIL' in current_app.config.keys() and current_app.config['SEND_BACKGROUND_MAIL'] == False:
+            send_message(self.mail, msg)
+        else:
+            sender = Thread(name='mail_sender', target=send_message, args=(self.mail, msg,))
+            sender.start()

@@ -16,6 +16,8 @@ SQLALCHEMY_DATABASE_URI = '%(db_path)s'
 SESSION_TYPE = 'filesystem'
 SECRET_KEY = '%(secret_key)s'
 
+SERVER_NAME = None
+
 STATIC_FOLDER = None
 PAGES_PATH = None
 USER_PAGES_PATH = None

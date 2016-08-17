@@ -28,7 +28,9 @@ def dynamic_import(name):
 
 
 communication_manager_class = dynamic_import(app.config['COMMUNICATION_MANAGER'])
-app.communication_manager = communication_manager_class()
+
+with app.app_context():
+    app.communication_manager = communication_manager_class()
 
 
 @login_manager.user_loader

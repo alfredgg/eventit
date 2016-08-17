@@ -26,7 +26,7 @@ class EventFactory(factory.Factory):
         datetime.datetime(datetime.datetime.now().year, 1, 1, tzinfo=compat.UTC),
         datetime.datetime(datetime.datetime.now().year, 12, 31, tzinfo=compat.UTC)
     )
-    owner_id = 0
+    owner_id = factory.fuzzy.FuzzyInteger(1, 25)  # FIXME: Use a sub-factory or something (this is an aberration)
 
 
 def generate_data(n_users=25, n_events=100):
