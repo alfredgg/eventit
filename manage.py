@@ -69,7 +69,7 @@ def write_config():
 @manager.command
 def setup_db():
     from eventit.models import db, Role
-    db.drop_all()
+    db.drop_all()   # TODO: Add a script for migrating the DB and not dropping it
     db.create_all()
     role_admin = Role(name='admin')
     role_organizer = Role(name='organizer')
